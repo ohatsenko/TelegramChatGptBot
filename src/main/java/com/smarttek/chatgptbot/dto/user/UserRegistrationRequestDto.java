@@ -1,4 +1,4 @@
-package com.smarttek.chatgptbot.dto;
+package com.smarttek.chatgptbot.dto.user;
 
 import com.smarttek.chatgptbot.validation.FieldMatch;
 import jakarta.validation.constraints.NotBlank;

@@ -1,2 +1,5 @@
-package com.smarttek.chatgptbot.service.impl;public interface TelegramBotService {
+package com.smarttek.chatgptbot.service;
+
+public interface TelegramBotService {
+    boolean sendResponse(Long chatId, String responseText);
 }

@@ -27,7 +27,7 @@ databaseChangeLog:
           sql: SELECT COUNT(*) FROM users WHERE email='admin@mail.com'
       - sqlCheck:
           expectedResult: 1
-          sql: SELECT COUNT(*) FROM roles WHERE role_name='SUPER_ADMIN'
+          sql: SELECT COUNT(*) FROM roles WHERE role_name='ROLE_ADMIN'
     changes:
       - insert:
           tableName: user_role
@@ -37,4 +37,4 @@ databaseChangeLog:
                 valueComputed: (SELECT id FROM users WHERE email='admin@mail.com')
             - column:
                 name: role_id
-                valueComputed: (SELECT id FROM roles WHERE role_name='SUPER_ADMIN')
+                valueComputed: (SELECT id FROM roles WHERE role_name='ROLE_ADMIN')
