@@ -1,2 +1,7 @@
-package com.smarttek.chatgptbot.exception;public class RegistrationException {
+package com.smarttek.chatgptbot.exception;
+
+public class RegistrationException extends RuntimeException {
+    public RegistrationException(String message) {
+        super(message);
+    }
 }

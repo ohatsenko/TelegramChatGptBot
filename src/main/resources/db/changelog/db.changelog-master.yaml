@@ -1,15 +1,15 @@
 databaseChangeLog:
     - include:
-        file: db.changelog/changes/01-create-users-table.yaml
+        file: db/changelog/changes/01-create-users-table.yaml
     - include:
-        file: db.changelog/changes/02-create-roles-table.yaml
+        file: db/changelog/changes/02-create-roles-table.yaml
     - include:
-        file: db.changelog/changes/03-create-user-role-table.yaml
+        file: db/changelog/changes/03-create-user-role-table.yaml
     - include:
-        file: db.changelog/changes/04-insert_roles.yaml
+        file: db/changelog/changes/04-insert_roles.yaml
     - include:
-        file: db.changelog/changes/05-insert-super-admin-user.yaml
+        file: db/changelog/changes/05-insert-super-admin-user.yaml
     - include:
-        file: db.changelog/changes/06-create-telegram-users-table.yaml
+        file: db/changelog/changes/06-create-telegram-users-table.yaml
     - include:
-        file: db.changelog/changes/07-create-telegram-messages-table.yaml
+        file: db/changelog/changes/07-create-telegram-messages-table.yaml

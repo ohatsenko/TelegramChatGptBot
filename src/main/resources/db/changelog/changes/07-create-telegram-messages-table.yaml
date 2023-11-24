@@ -14,12 +14,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: question
+                  name: request
                   type: varchar(255)
                   constraints:
                     nullable: false
               - column:
-                  name: answer
+                  name: response
                   type: varchar(255)
                   constraints:
                     nullable: false

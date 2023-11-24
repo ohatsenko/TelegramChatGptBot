@@ -1,11 +1,14 @@
 package com.smarttek.chatgptbot.service.impl;
 
+import com.smarttek.chatgptbot.client.ChatGptClient;
 import com.smarttek.chatgptbot.model.TelegramMessage;
 import com.smarttek.chatgptbot.model.TelegramUser;
 import com.smarttek.chatgptbot.repository.TelegramMessageRepository;
 import com.smarttek.chatgptbot.repository.TelegramUserRepository;
+import com.smarttek.chatgptbot.service.TelegramBotService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -16,12 +19,15 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Service
 @RequiredArgsConstructor
-public class TelegramBostServiceImpl extends TelegramLongPollingBot {
+public class TelegramBotServiceImpl extends TelegramLongPollingBot implements TelegramBotService {
     private final TelegramUserRepository telegramUserRepository;
     private final TelegramMessageRepository telegramMessageRepository;
+    private final ChatGptClient chatGptClient;
 
-    private final String BOT_NAME = "your_bot_name";
-    private final String BOT_TOKEN = "your_bot_token";
+    @Value("${telegram.name}")
+    private String botName;
+    @Value("${telegram.token}")
+    private String botToken;
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -29,48 +35,34 @@ public class TelegramBostServiceImpl extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
             String messageText = update.getMessage().getText();
 
-            // Получение пользователя по telegramId
             TelegramUser telegramUser = telegramUserRepository.findByTelegramId(chatId);
             if (telegramUser == null) {
-                // Создание нового пользователя, если он не найден
                 telegramUser = new TelegramUser();
                 telegramUser.setTelegramId(chatId);
                 telegramUser = telegramUserRepository.save(telegramUser);
             }
 
-            // Получение ответа от ChatGPT
-   //         String responseText = chatGptService.getResponse(messageText);
-            String responseText = "GPT Answer";
+            String responseText = chatGptClient.getResponse(messageText);
 
-            // Создание нового сообщения
             TelegramMessage telegramMessage = new TelegramMessage();
-            telegramMessage.setQuestion(messageText);
-            telegramMessage.setAnswer(responseText);
+            telegramMessage.setRequest(messageText);
+            telegramMessage.setResponse(responseText);
             telegramMessage.setTelegramUser(telegramUser);
 
-            // Сохранение сообщения в базе данных
             telegramMessageRepository.save(telegramMessage);
 
-            // Отправка ответа пользователю
-            SendMessage message = new SendMessage();
-            message.setChatId(chatId.toString());
-            message.setText(responseText);
-            try {
-                execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+            sendResponse(chatId, responseText);
         }
     }
 
     @Override
     public String getBotUsername() {
-        return BOT_NAME;
+        return botName;
     }
 
     @Override
     public String getBotToken() {
-        return BOT_TOKEN;
+        return botToken;
     }
 
     @PostConstruct
@@ -81,5 +73,18 @@ public class TelegramBostServiceImpl extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean sendResponse(Long chatId, String responseText) {
+        SendMessage message = new SendMessage();
+        message.setChatId(chatId.toString());
+        message.setText(responseText);
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package com.smarttek.chatgptbot.dto;
+package com.smarttek.chatgptbot.dto.telegram;
 
 import lombok.Data;
 

@@ -1,5 +1,5 @@
 package com.smarttek.chatgptbot.client;
 
-public interface OpenAiClient {
+public interface ChatGptClient {
     String getResponse(String prompt);
 }
