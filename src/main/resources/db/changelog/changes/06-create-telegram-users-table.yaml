@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-telegram-users-table
+      author: ohatsenko
+      changes:
+        - createTable:
+            tableName: telegram_users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: telegramId
+                  type: bigint
+                  constraints:
+                    nullable: false

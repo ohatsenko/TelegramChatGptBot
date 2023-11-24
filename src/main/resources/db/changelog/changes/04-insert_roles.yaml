@@ -1,0 +1,34 @@
+databaseChangeLog:
+  - changeSet:
+      id: insert-roles
+      author: ohatsenko
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: role_name
+                  value: "SUPER_ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: role_name
+                  value: "ADMIN"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: role_name
+                  value: "USER"
+
+

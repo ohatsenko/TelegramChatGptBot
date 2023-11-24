@@ -1,0 +1,40 @@
+databaseChangeLog:
+- changeSet:
+    id: insert-admin-user
+    author: ohatsenko
+    changes:
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: email
+                value: admin@mail.com
+            - column:
+                name: password
+                value: $2a$12$NY3.gmrFHRfxwxZRHJhVNe.Lszi8OHqZW/3Kc/1xSu9YO6eYaLeRG  #adminadmin
+            - column:
+                name: first_name
+                value: admin
+            - column:
+                name: last_name
+                value: admin
+- changeSet:
+    id: insert-user-role
+    author: ohatsenko
+    preConditions:
+      - sqlCheck:
+          expectedResult: 1
+          sql: SELECT COUNT(*) FROM users WHERE email='admin@mail.com'
+      - sqlCheck:
+          expectedResult: 1
+          sql: SELECT COUNT(*) FROM roles WHERE role_name='SUPER_ADMIN'
+    changes:
+      - insert:
+          tableName: user_role
+          columns:
+            - column:
+                name: user_id
+                valueComputed: (SELECT id FROM users WHERE email='admin@mail.com')
+            - column:
+                name: role_id
+                valueComputed: (SELECT id FROM roles WHERE role_name='SUPER_ADMIN')

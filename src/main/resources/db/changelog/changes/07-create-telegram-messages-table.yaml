@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-telegram-messages-table
+      author: ohatsenko
+      changes:
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: question
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: answer
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: telegram_user_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_telegram_user_id
+                    references: telegram_users(id)
