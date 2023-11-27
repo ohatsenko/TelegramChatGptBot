@@ -89,7 +89,7 @@ application.
     <h3> Video Guide </h3>
     <p>
         For a quick visual introduction to our application, check out our short video guide:
-        <br> - <a href="https://NULL" target="_blank" class="social-icon">
+        <br> - <a href="https://cutt.ly/IwOqOcfp" target="_blank" class="social-icon">
 Video Guide</a>.
     </p>
 </div>
@@ -118,7 +118,7 @@ so you can register as a moderator or log in as an admin using these credentials
 <div id="contribute">
     <h3> Contribute </h3>
     <p>
-        We welcome contributions! If you'd like to contribute or have any questions, please reach out to us on LinkedIn
+        Welcome contributions! If you'd like to contribute or have any questions, please reach out to me on LinkedIn
     </p>
 <a href="https://www.linkedin.com/in/oleksandr-hatsenko/" target="_blank" class="social-icon">
 LinkedIn profile</a>

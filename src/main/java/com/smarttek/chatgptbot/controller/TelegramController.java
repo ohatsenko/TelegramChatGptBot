@@ -1,8 +1,8 @@
 package com.smarttek.chatgptbot.controller;
 
+import com.smarttek.chatgptbot.client.TelegramClient;
 import com.smarttek.chatgptbot.dto.telegram.TelegramMessageDto;
 import com.smarttek.chatgptbot.dto.telegram.TelegramUserDto;
-import com.smarttek.chatgptbot.service.TelegramBotService;
 import com.smarttek.chatgptbot.service.TelegramService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class TelegramController {
     private final TelegramService telegramService;
-    private final TelegramBotService telegramBotService;
+    private final TelegramClient telegramClient;
 
     @Tag(name = "Get all telegram users", description = "Get all telegram users")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER')")
@@ -45,6 +45,6 @@ public class TelegramController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users/{chatId}")
     public String sendMessageByChatId(@PathVariable Long chatId, @RequestParam String message) {
-        return String.valueOf(telegramBotService.sendResponse(chatId, message));
+        return String.valueOf(telegramClient.sendResponse(chatId, message));
     }
 }

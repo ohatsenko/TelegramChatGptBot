@@ -1,12 +1,12 @@
-package com.smarttek.chatgptbot.service.impl;
+package com.smarttek.chatgptbot.client;
 
-import com.smarttek.chatgptbot.client.ChatGptClient;
+import com.smarttek.chatgptbot.exception.TelegramException;
 import com.smarttek.chatgptbot.model.TelegramMessage;
 import com.smarttek.chatgptbot.model.TelegramUser;
 import com.smarttek.chatgptbot.repository.TelegramMessageRepository;
 import com.smarttek.chatgptbot.repository.TelegramUserRepository;
-import com.smarttek.chatgptbot.service.TelegramBotService;
 import jakarta.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Service
 @RequiredArgsConstructor
-public class TelegramBotServiceImpl extends TelegramLongPollingBot implements TelegramBotService {
+public class TelegramClientImpl extends TelegramLongPollingBot implements TelegramClient {
     private final TelegramUserRepository telegramUserRepository;
     private final TelegramMessageRepository telegramMessageRepository;
     private final ChatGptClient chatGptClient;
@@ -45,6 +45,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             String responseText = chatGptClient.getResponse(messageText);
 
             TelegramMessage telegramMessage = new TelegramMessage();
+            telegramMessage.setDateTime(LocalDateTime.now());
             telegramMessage.setRequest(messageText);
             telegramMessage.setResponse(responseText);
             telegramMessage.setTelegramUser(telegramUser);
@@ -71,7 +72,7 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(this);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new TelegramException("Can't launch telegram bot");
         }
     }
 
@@ -83,7 +84,8 @@ public class TelegramBotServiceImpl extends TelegramLongPollingBot implements Te
         try {
             execute(message);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            throw new TelegramException("Can't send a message "
+                    + responseText + " to chat: " + chatId);
         }
         return true;
     }
