@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TelegramMessageRepository extends JpaRepository<TelegramMessage, Long> {
     Page<TelegramMessage> findAllByTelegramUserId(Long id, Pageable pageable);
-
 }

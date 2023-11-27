@@ -26,7 +26,7 @@ public class AdminController {
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Get all users", description
-            = "Get all registered users")
+            = "Get all registered users. Admin only")
     public Set<UserDto> getAllUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
     }

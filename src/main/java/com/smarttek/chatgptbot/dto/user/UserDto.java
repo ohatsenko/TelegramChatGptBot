@@ -1,6 +1,5 @@
 package com.smarttek.chatgptbot.dto.user;
 
-import com.smarttek.chatgptbot.model.Role;
 import lombok.Data;
 
 @Data
@@ -9,5 +8,4 @@ public class UserDto {
     private String email;
     private String firstName;
     private String lastName;
-    private Role.RoleName role;
 }

@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
     public Set<UserDto> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable)
                 .stream()
+                .filter(user -> user.getId() != 1)
                 .map(userMapper::toDto)
                 .collect(Collectors.toSet());
     }
